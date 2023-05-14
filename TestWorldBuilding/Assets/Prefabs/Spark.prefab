@@ -4826,6 +4826,8 @@ GameObject:
   - component: {fileID: 2075213104141334069}
   - component: {fileID: 7729243838274138592}
   - component: {fileID: 4140488653134537351}
+  - component: {fileID: -7588002590030531304}
+  - component: {fileID: 8023210553652392604}
   m_Layer: 0
   m_Name: Spark
   m_TagString: Spark
@@ -4987,3 +4989,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explodeParticle: {fileID: 4167555061807047925, guid: fb20a7a5605de7c4bbff8a44bcbc90a1, type: 3}
+--- !u!114 &-7588002590030531304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9190064843844720222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 256df7860419a7b4e9ecebd0ef7d2f53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 20
+--- !u!114 &8023210553652392604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9190064843844720222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 286cf572dfea6584980a48a4306ff6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 20
+  initialHealth: 0
+  healths: {fileID: 0}
+  healthBarr: 0

@@ -32,10 +32,16 @@ public class XLightning : MonoBehaviour
 
         for (int i = 1; i < 10; i++)
         {
-            Instantiate(groundLightning, transform.position + Vector3.right * i * 2, Quaternion.identity);
-            Instantiate(groundLightning, transform.position + Vector3.left * i * 2, Quaternion.identity);
-            Instantiate(groundLightning, transform.position + Vector3.forward * i * 2, Quaternion.identity);
-            Instantiate(groundLightning, transform.position + Vector3.back * i * 2, Quaternion.identity);
+            transform.Translate(Vector3.right*i*2);
+            Instantiate(groundLightning, transform.position, Quaternion.identity);
+            transform.Translate(Vector3.left*i*4);
+            Instantiate(groundLightning, transform.position, Quaternion.identity);
+            transform.Translate(Vector3.right*i*2);
+            transform.Translate(Vector3.forward*i*2);
+            Instantiate(groundLightning, transform.position, Quaternion.identity);
+            transform.Translate(Vector3.back*i*4);
+            Instantiate(groundLightning, transform.position, Quaternion.identity);
+            transform.Translate(Vector3.forward*i*2);
         }
 
         Destroy(gameObject);
