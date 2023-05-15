@@ -85,6 +85,8 @@ public class Kilosoult : MonoBehaviour
     {
         if (teleporting)
         {
+            Vector3 randomTeleport = new Vector3(Random.Range(-9f, 9f), Random.Range(1f, 8f), Random.Range(-9f, 9f));
+            GameObject teleportLocation = Instantiate(dashTarget, randomTeleport, Quaternion.identity);
             if (phaseMulti == 1)
             {
                 yield return new WaitForSeconds(teleportTimer);
@@ -94,7 +96,8 @@ public class Kilosoult : MonoBehaviour
                 yield return new WaitForSeconds(teleportTimer/phaseMulti*1.5f);
             }
 
-            transform.position = new Vector3(Random.Range(-8f, 8f), Random.Range(1f, 8f), Random.Range(-8f, 8f));
+            transform.position = randomTeleport;
+            Destroy(teleportLocation);
             StartCoroutine(TeleportCoroutine());
         }
     }
@@ -199,7 +202,7 @@ public class Kilosoult : MonoBehaviour
         {
             phaseDash.SetActive(true);
         }
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
         for (int i = 0; i < (3*phaseMulti); i++)
         {
             yield return new WaitForSeconds(teleportTimer / 3f);
@@ -211,7 +214,7 @@ public class Kilosoult : MonoBehaviour
                 {
                     if (hit.collider.gameObject == GameObject.Find("Player"))
                     {
-                        hit.collider.gameObject.GetComponent<Damageable>().Damaged(35);
+                        hit.collider.gameObject.GetComponent<Damageable>().Damaged(40);
                     }
                 }
             }
@@ -221,9 +224,9 @@ public class Kilosoult : MonoBehaviour
                 {
                     if (hit.collider.gameObject == GameObject.Find("Player"))
                     {
-                        hit.collider.gameObject.GetComponent<Damageable>().Damaged(35);
+                        hit.collider.gameObject.GetComponent<Damageable>().Damaged(40);
                     }                    
-                }
+                }   
             }
         }
         if (souled == true)

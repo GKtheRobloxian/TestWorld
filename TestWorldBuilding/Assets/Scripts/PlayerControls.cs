@@ -21,6 +21,12 @@ public class PlayerControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        BasicMovement();
+        Shooting();
+    }
+
+    void BasicMovement()
+    {
         left = Input.GetAxis("Horizontal");
         forward = Input.GetAxis("Vertical");
         transform.Translate(Vector3.forward * 15f * forward * Time.deltaTime);
@@ -35,7 +41,6 @@ public class PlayerControls : MonoBehaviour
         {
             transform.position = new Vector3 (0, 1, 0);
         }
-        Shooting();
     }
 
     void Shooting()
@@ -56,7 +61,6 @@ public class PlayerControls : MonoBehaviour
                 else
                 {
                     hit.collider.gameObject.GetComponent<Damageable>().Damaged(5);
-                    Debug.Log(hit.collider.gameObject.GetComponent<Damageable>().health);
                 }
             }
             fireRate = fireRateInitial;
