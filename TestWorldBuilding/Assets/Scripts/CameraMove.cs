@@ -6,6 +6,7 @@ public class CameraMove : MonoBehaviour
 {
     float rotate;
     float votate;
+    public float sensitivity = 1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,8 +19,8 @@ public class CameraMove : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         rotate = Input.GetAxis("Mouse X");
         votate = Input.GetAxis("Mouse Y");
-        transform.RotateAround(transform.position, Vector3.up, rotate * 720 * Time.deltaTime);
-        transform.Rotate(Vector3.right, votate * -720 * Time.deltaTime);
+        transform.RotateAround(transform.position, Vector3.up, rotate * 720 * sensitivity * Time.deltaTime);
+        transform.Rotate(Vector3.right, votate * -720 * sensitivity* Time.deltaTime);
         transform.position = GameObject.Find("Player").transform.position + Vector3.up*0.5f;
     }
 }

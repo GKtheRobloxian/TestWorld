@@ -30,7 +30,7 @@ public class XLightning : MonoBehaviour
 
         yield return new WaitForSeconds(0.75f);
 
-        for (int i = 1; i < 10; i++)
+        for (int i = 1; i < 22; i++)
         {
             transform.Translate(Vector3.right*i*2);
             Instantiate(groundLightning, transform.position, Quaternion.identity);

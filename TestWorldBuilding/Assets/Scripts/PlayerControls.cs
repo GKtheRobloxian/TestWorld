@@ -10,6 +10,7 @@ public class PlayerControls : MonoBehaviour
     float fireRate;
     bool grounded = true;
     public GameObject projHit;
+    public GameObject projTrail;
     Rigidbody rb;
     // Start is called before the first frame update
     void Start()
@@ -37,9 +38,14 @@ public class PlayerControls : MonoBehaviour
             rb.AddRelativeForce(Vector3.up*10f, ForceMode.Impulse);
             grounded = false;
         }
-        if (transform.position.x < -10 || transform.position.x > 10 || transform.position.z > 10 || transform.position.z < -10)
+    }
+
+    void AdvancedMovement()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            transform.position = new Vector3 (0, 1, 0);
+            rb.velocity = new Vector3 (0, rb.velocity.y, 0);
+            rb.AddRelativeForce(Vector3.forward * 20f, ForceMode.Impulse);
         }
     }
 
@@ -48,22 +54,22 @@ public class PlayerControls : MonoBehaviour
         fireRate -= Time.deltaTime;
         if (Input.GetMouseButtonDown(0) && fireRate <= 0)
         {
+            Vector3 startRaycast = transform.position;
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            LayerMask mask = 1<<LayerMask.GetMask("TrailTrigger");
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, mask))
             {
+                fireRate = fireRateInitial;
                 Instantiate(projHit, hit.point, Quaternion.identity);
+                projTrail.GetComponent<ProjectileTrail>().SetPosition(hit.point, startRaycast);
                 Damageable damaging = hit.collider.gameObject.GetComponent<Damageable>();
                 if (damaging == null)
                 {
                     return;
                 }
-                else
-                {
-                    hit.collider.gameObject.GetComponent<Damageable>().Damaged(5);
-                }
+                hit.collider.gameObject.GetComponent<Damageable>().Damaged(5);
             }
-            fireRate = fireRateInitial;
         }
     }
 
