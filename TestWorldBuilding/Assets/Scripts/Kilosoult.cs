@@ -176,9 +176,9 @@ public class Kilosoult : MonoBehaviour
         if (phaseMulti == 1)
         {
             int u = Random.Range(1, targets.Length - 3);
-            targets[0] = new Vector3(Random.Range(-19f, 19f), GameObject.Find("Player").transform.position.y, Random.Range(-19f, 19f));
-            targets[1] = new Vector3(Random.Range(-19f, 19f), GameObject.Find("Player").transform.position.y, Random.Range(-19f, 19f));           
-            targets[2] = new Vector3(Random.Range(-19f, 19f), GameObject.Find("Player").transform.position.y, Random.Range(-19f, 19f));
+            targets[0] = new Vector3(Random.Range(-19f, 19f), Random.Range(1f, 9f), Random.Range(-19f, 19f));
+            targets[1] = new Vector3(Random.Range(-19f, 19f), Random.Range(1f, 9f), Random.Range(-19f, 19f));           
+            targets[2] = new Vector3(Random.Range(-19f, 19f), Random.Range(1f, 9f), Random.Range(-19f, 19f));
             targets[3] = targets[2];
             targets[4] = targets[2];
             targets[5] = targets[2];
@@ -191,12 +191,12 @@ public class Kilosoult : MonoBehaviour
         else if (phaseMulti == 2)
         {
             int u = Random.Range(1, targets.Length);
-            targets[0] = new Vector3(Random.Range(-19f, 19f), GameObject.Find("Player").transform.position.y, Random.Range(-19f, 19f));
-            targets[1] = new Vector3(Random.Range(-19f, 19f), GameObject.Find("Player").transform.position.y, Random.Range(-19f, 19f)); 
-            targets[2] = new Vector3(Random.Range(-19f, 19f), GameObject.Find("Player").transform.position.y, Random.Range(-19f, 19f)); 
-            targets[3] = new Vector3(Random.Range(-19f, 19f), GameObject.Find("Player").transform.position.y, Random.Range(-19f, 19f));
-            targets[4] = new Vector3(Random.Range(-19f, 19f), GameObject.Find("Player").transform.position.y, Random.Range(-19f, 19f));
-            targets[5] = new Vector3(Random.Range(-19f, 19f), GameObject.Find("Player").transform.position.y, Random.Range(-19f, 19f));
+            targets[0] = new Vector3(Random.Range(-19f, 19f), Random.Range(1f, 9f), Random.Range(-19f, 19f));
+            targets[1] = new Vector3(Random.Range(-19f, 19f), Random.Range(1f, 9f), Random.Range(-19f, 19f)); 
+            targets[2] = new Vector3(Random.Range(-19f, 19f), Random.Range(1f, 9f), Random.Range(-19f, 19f)); 
+            targets[3] = new Vector3(Random.Range(-19f, 19f), Random.Range(1f, 9f), Random.Range(-19f, 19f));
+            targets[4] = new Vector3(Random.Range(-19f, 19f), Random.Range(1f, 9f), Random.Range(-19f, 19f));
+            targets[5] = new Vector3(Random.Range(-19f, 19f), Random.Range(1f, 9f), Random.Range(-19f, 19f));
             targets[u-1] = new Vector3(GameObject.Find("Player").transform.position.x, GameObject.Find("Player").transform.position.y, GameObject.Find("Player").transform.position.z);
             Instantiate(dashTarget, targets[u-1], Quaternion.identity);
             Instantiate(dashTarget, targets[0], Quaternion.identity); 
@@ -268,7 +268,7 @@ public class Kilosoult : MonoBehaviour
     {
         Vector3 randomTeleport = new Vector3(Random.Range(-19f, 19f), Random.Range(1f, 8f), Random.Range(-19f, 19f));
         GameObject teleportLocation = Instantiate(dashTarget, randomTeleport, Quaternion.identity);
-        yield return new WaitForSeconds(teleportTimer/2f);
+        yield return new WaitForSeconds(teleportTimer/1.5f);
         transform.position = randomTeleport;
         Destroy(teleportLocation);
         Instantiate(franticLightning, new Vector3 (Random.Range(-19f, 19f), 0.5f, Random.Range(-19f, 19f)), Quaternion.identity);

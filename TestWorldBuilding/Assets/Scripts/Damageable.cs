@@ -8,6 +8,7 @@ public class Damageable : MonoBehaviour
     public float initialHealth;
     public GameObject healths;
     public bool healthBarr;
+    public float damageTaken;
     HealthBar healthBa;
     // Start is called before the first frame update
     void Start()
@@ -35,5 +36,6 @@ public class Damageable : MonoBehaviour
     public void Damaged(float damage)
     {
         health -= damage;
+        damageTaken += damage;
     }
 }
