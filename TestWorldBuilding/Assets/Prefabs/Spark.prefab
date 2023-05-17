@@ -4989,6 +4989,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explodeParticle: {fileID: 4167555061807047925, guid: fb20a7a5605de7c4bbff8a44bcbc90a1, type: 3}
+  speed: 10
 --- !u!114 &-7588002590030531304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5004,6 +5005,7 @@ MonoBehaviour:
   damage: 20
   eleCannon: 0
   playerProj: 0
+  automatic: 0
 --- !u!114 &8023210553652392604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5020,4 +5022,5 @@ MonoBehaviour:
   initialHealth: 0
   healths: {fileID: 0}
   healthBarr: 0
+  player: 0
   damageTaken: 0

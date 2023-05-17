@@ -18,7 +18,8 @@ public class Kilosoult : MonoBehaviour
     bool souled = false;
     public float teleportTimer;
     public float attackTimer;
-    int soulTimer = 0;
+    public int soulTimer = 0;
+    int xLightningTimer;
     Light lighting;
     Damageable damagin;
 
@@ -58,7 +59,7 @@ public class Kilosoult : MonoBehaviour
         }
         teleporting = false;
         StopCoroutine(TeleportCoroutine());
-        if (soulTimer >= (2*phaseMulti))
+        if (soulTimer >= (2*phaseMulti) && GameObject.FindWithTag("Spark") != null)
         {
             StartCoroutine(ExplodeCoroutine());
         }
@@ -148,6 +149,7 @@ public class Kilosoult : MonoBehaviour
     
     IEnumerator ExplodeCoroutine()
     {
+        soulTimer = 0;
         yield return new WaitForSeconds(2f);
 
         GameObject[] sparks = GameObject.FindGameObjectsWithTag("Spark");
@@ -158,7 +160,6 @@ public class Kilosoult : MonoBehaviour
         StartCoroutine(AttackCoroutine());
         teleporting = true;
         souled = false;
-        soulTimer = 0;
         StartCoroutine(TeleportCoroutine());
         StopCoroutine(ExplodeCoroutine());
     }
@@ -269,9 +270,14 @@ public class Kilosoult : MonoBehaviour
         Vector3 randomTeleport = new Vector3(Random.Range(-19f, 19f), Random.Range(1f, 8f), Random.Range(-19f, 19f));
         GameObject teleportLocation = Instantiate(dashTarget, randomTeleport, Quaternion.identity);
         yield return new WaitForSeconds(teleportTimer/1.5f);
+        xLightningTimer += 1;
         transform.position = randomTeleport;
         Destroy(teleportLocation);
-        Instantiate(franticLightning, new Vector3 (Random.Range(-19f, 19f), 0.5f, Random.Range(-19f, 19f)), Quaternion.identity);
+        if (xLightningTimer >= 2)
+        {
+            Instantiate(lightningX, new Vector3 (Random.Range(-19f, 19f), 0.5f, Random.Range(-19f, 19f)), Quaternion.identity);
+            xLightningTimer = 0;
+        }
         StartCoroutine(FranticCoroutine());
     }
 }

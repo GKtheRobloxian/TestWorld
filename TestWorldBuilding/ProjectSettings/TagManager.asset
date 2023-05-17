@@ -6,14 +6,17 @@ TagManager:
   tags:
   - Spark
   - DashTarget
+  - ElecAttack
+  - Wood
+  - ElecEnemy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Wood
   - Water
   - UI
-  - 
+  - Player
   - 
   - 
   - 

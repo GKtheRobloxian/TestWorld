@@ -8,6 +8,7 @@ public class DamageField : MonoBehaviour
     public float damage;
     public bool eleCannon;
     public bool playerProj;
+    public bool automatic;
 
     // Start is called before the first frame update
     void Start()

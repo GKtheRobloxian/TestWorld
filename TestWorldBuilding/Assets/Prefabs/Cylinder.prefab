@@ -189,3 +189,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 35
+  eleCannon: 0
+  playerProj: 0
+  automatic: 0

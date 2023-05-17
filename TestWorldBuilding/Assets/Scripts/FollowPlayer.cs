@@ -5,6 +5,7 @@ using UnityEngine;
 public class FollowPlayer : MonoBehaviour
 {
     public GameObject explodeParticle;
+    public float speed;
     Damageable damaging;
     Transform playerPos;
     Vector3 randomPos;
@@ -21,12 +22,16 @@ public class FollowPlayer : MonoBehaviour
     {
         transform.LookAt(playerPos.position + randomPos);
 
-        transform.Translate(Vector3.forward * 5f * Time.deltaTime);
+        transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
 
     public void SparkExplode()
     {
-        Instantiate(explodeParticle, transform.position, Quaternion.identity);
+        GameObject yeet = Instantiate(explodeParticle, transform.position, Quaternion.identity);
+        if (GameObject.Find("Kilosoult").GetComponent<Kilosoult>().soulTimer > 0)
+        {
+            yeet.GetComponent<DamageField>().playerProj = true;
+        }
         Destroy(gameObject);
     }
 }

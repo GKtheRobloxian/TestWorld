@@ -14,7 +14,13 @@ public class PlayerControls : MonoBehaviour
     public GameObject[] projTrails;
     public float[] reloadTimes;
     float weaponScrollWheel = 1;
+    int actualScroll;
+    public float parryTimer = 0f;
+    float parryCooldown = 0f;
+    float parryEffects = 2f;
     public float maxDashStamina;
+    public GameObject parryTrail;
+    public GameObject parryEffect;
     float dashStamina;
     bool dashing = false;
     Rigidbody rb;
@@ -46,6 +52,7 @@ public class PlayerControls : MonoBehaviour
         BasicMovement();
         Shooting();
         AdvancedMovement();
+        //Parrying();
     }
 
     void BasicMovement()
@@ -93,19 +100,30 @@ public class PlayerControls : MonoBehaviour
     {
         fireRate -= Time.deltaTime;
         weaponScrollWheel += Input.mouseScrollDelta.y;
-        int actualScroll = Mathf.FloorToInt(Mathf.Abs(weaponScrollWheel) % projTrails.Length);
+        actualScroll = Mathf.FloorToInt(Mathf.Abs(weaponScrollWheel) % projTrails.Length);
         if (Input.mouseScrollDelta.y != 0)
         {
             UpdateReload(actualScroll);
         }
         GameObject.Find("Reload Timer").GetComponent<ReloadTimer>().SetValue(fireRateInitial, fireRate);
-        if (Input.GetMouseButtonDown(0) && fireRate <= 0)
+        var inputFinder = Input.GetMouseButtonDown(0);
+        var randomRange = UnityEngine.Random.Range(0f, 0f);
+        if (projTrails[actualScroll].GetComponent<DamageField>().automatic)
+        {
+            inputFinder = Input.GetMouseButton(0);
+            randomRange = UnityEngine.Random.Range(-0.035f, 0.035f);
+        }
+        else if (!projTrails[actualScroll].GetComponent<DamageField>().automatic)
+        {
+            inputFinder = Input.GetMouseButtonDown(0);
+            randomRange = UnityEngine.Random.Range(0f, 0f);
+        }
+        if (inputFinder && fireRate <= 0)
         {
             Vector3 startRaycast = transform.position;
             RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             LayerMask mask = 1<<LayerMask.GetMask("TrailTrigger");
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, mask))
+            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward + new Vector3 (randomRange * (UnityEngine.Random.Range(-1.0f, 1.0f)), Mathf.Tan(-GameObject.Find("PlayerCam").transform.localEulerAngles.x/180*Mathf.PI) + randomRange * (UnityEngine.Random.Range(-1.0f, 1.0f)))), out hit, Mathf.Infinity, mask))
             {
                 fireRate = fireRateInitial;
                 Instantiate(projHit[actualScroll], hit.point, Quaternion.identity);
@@ -134,11 +152,48 @@ public class PlayerControls : MonoBehaviour
         }
     }
 
+    void Parrying()
+    {
+        parryEffects -= Time.deltaTime;
+        parryTimer -= Time.deltaTime;
+        parryCooldown -= Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.E) && parryCooldown <= 0)
+        {
+            parryTimer = 0.15f;
+            parryCooldown = 2f;
+            parryEffects = 2f;
+        }
+        if (parryEffects > 0f)
+        {
+            parryEffect.SetActive(true);
+        }
+        else
+        {
+            parryEffect.SetActive(false);
+        }
+    }
+
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject == GameObject.Find("Ground"))
         {
             grounded = true;
+        }
+        if (collision.gameObject.GetComponent<DamageField>() != null && parryTimer > 0)
+        {
+            float damageParried = collision.gameObject.GetComponent<DamageField>().damage;
+            GameObject enthralled = GameObject.FindWithTag("Spark");
+            if (enthralled != null)
+            {
+                enthralled = GameObject.Find("Kilosoult");
+                enthralled.GetComponent<Damageable>().Damaged(damageParried);
+                parryTrail.GetComponent<ProjectileTrail>().SetPosition(transform.position, enthralled.transform.position);
+            }
+            else
+            {
+                enthralled.GetComponent<Damageable>().Damaged(damageParried);
+                parryTrail.GetComponent<ProjectileTrail>().SetPosition(transform.position, enthralled.transform.position);
+            }
         }
     }
 }

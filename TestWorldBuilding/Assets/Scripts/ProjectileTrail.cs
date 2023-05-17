@@ -25,26 +25,13 @@ public class ProjectileTrail : MonoBehaviour
         StartCoroutine(TrailGenerate(hitPos, startPosition));
     }
 
-    void OnTriggerEnter(Collider other)
-    {
-        StartCoroutine(TrailReturn());
-    }
-
     IEnumerator TrailGenerate(Vector3 hit, Vector3 start)
     {
         GetComponent<TrailRenderer>().enabled = false;
-        yield return new WaitForEndOfFrame();
         transform.position = start;
         yield return new WaitForEndOfFrame();
         GetComponent<TrailRenderer>().enabled = true;
         yield return new WaitForEndOfFrame();
         transform.position = hit;
-    }
-    IEnumerator TrailReturn()
-    {
-        yield return new WaitForSeconds(0.2f);
-        GetComponent<TrailRenderer>().enabled = false;
-        yield return new WaitForEndOfFrame();
-        GetComponent<TrailRenderer>().enabled = true;
     }
 }
