@@ -18,6 +18,7 @@ public class PlayerControls : MonoBehaviour
     public float parryTimer = 0f;
     float parryCooldown = 0f;
     float parryEffects = 2f;
+    float dashCount = 0f;
     public float maxDashStamina;
     public GameObject parryTrail;
     public GameObject parryEffect;
@@ -87,6 +88,15 @@ public class PlayerControls : MonoBehaviour
         else
         {
             dashing = false;
+        }
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            dashCount++;
+        }
+        if (Input.GetKeyDown(KeyCode.Space) && !grounded && dashCount == 1)
+        {
+            rb.AddRelativeForce(Vector3.up*10f, ForceMode.Impulse);
+            dashCount++;
         }
     }
 
@@ -178,6 +188,7 @@ public class PlayerControls : MonoBehaviour
         if (collision.gameObject == GameObject.Find("Ground"))
         {
             grounded = true;
+            dashCount = 0;
         }
         if (collision.gameObject.GetComponent<DamageField>() != null && parryTimer > 0)
         {
