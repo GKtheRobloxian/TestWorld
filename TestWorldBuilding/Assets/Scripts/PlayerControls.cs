@@ -24,6 +24,8 @@ public class PlayerControls : MonoBehaviour
     public GameObject parryEffect;
     float dashStamina;
     bool dashing = false;
+    float globalGravity = -0.9f;
+    public float gravityScale = 1.0f;
     Rigidbody rb;
     // Start is called before the first frame update
     void Start()
@@ -32,6 +34,7 @@ public class PlayerControls : MonoBehaviour
         dashStamina = maxDashStamina;
         fireRate = fireRateInitial;
         rb = GetComponent<Rigidbody>();
+        rb.useGravity = false;
     }
 
     // Update is called once per frame
@@ -54,6 +57,8 @@ public class PlayerControls : MonoBehaviour
         Shooting();
         AdvancedMovement();
         //Parrying();
+        Vector3 gravity = globalGravity * gravityScale * Vector3.up;
+        rb.AddForce(gravity, ForceMode.Acceleration);
     }
 
     void BasicMovement()
@@ -75,7 +80,7 @@ public class PlayerControls : MonoBehaviour
 
     void AdvancedMovement()
     {
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && !grounded)
         {
             if (dashStamina > 0)
             {
@@ -89,14 +94,15 @@ public class PlayerControls : MonoBehaviour
         {
             dashing = false;
         }
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !grounded)
         {
             dashCount++;
         }
-        if (Input.GetKeyDown(KeyCode.Space) && !grounded && dashCount == 1)
+        if (Input.GetKeyDown(KeyCode.Space) && !grounded && dashCount == 1 && !dashing)
         {
             rb.AddRelativeForce(Vector3.up*10f, ForceMode.Impulse);
             dashCount++;
+            grounded = false;
         }
     }
 
@@ -110,6 +116,10 @@ public class PlayerControls : MonoBehaviour
     {
         fireRate -= Time.deltaTime;
         weaponScrollWheel += Input.mouseScrollDelta.y;
+        if (weaponScrollWheel < 0)
+        {
+            weaponScrollWheel = projTrails.Length;
+        }
         actualScroll = Mathf.FloorToInt(Mathf.Abs(weaponScrollWheel) % projTrails.Length);
         if (Input.mouseScrollDelta.y != 0)
         {

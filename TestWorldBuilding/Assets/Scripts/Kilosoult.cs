@@ -66,7 +66,7 @@ public class Kilosoult : MonoBehaviour
         }
         else
         {
-            if (damagin.health <= damagin.initialHealth *0.15f && soulTimer == 0)
+            if (damagin.health <= damagin.initialHealth *0.2f && soulTimer == 0)
             {
                 StartCoroutine(FranticCoroutine());
             }
@@ -151,18 +151,28 @@ public class Kilosoult : MonoBehaviour
     IEnumerator ExplodeCoroutine()
     {
         soulTimer = 0;
-        yield return new WaitForSeconds(2f);
-
-        GameObject[] sparks = GameObject.FindGameObjectsWithTag("Spark");
-        for (int i = 0; i < sparks.Length; i++)
+        if (GameObject.FindWithTag("Spark") == null)
         {
-            sparks[i].GetComponent<FollowPlayer>().SparkExplode();
+            StartCoroutine(AttackCoroutine());
+            teleporting = true;
+            StartCoroutine(TeleportCoroutine());
+            StopCoroutine(ExplodeCoroutine());
         }
-        StartCoroutine(AttackCoroutine());
-        teleporting = true;
-        souled = false;
-        StartCoroutine(TeleportCoroutine());
-        StopCoroutine(ExplodeCoroutine());
+        else
+        {
+            yield return new WaitForSeconds(2f);
+
+            GameObject[] sparks = GameObject.FindGameObjectsWithTag("Spark");
+            for (int i = 0; i < sparks.Length; i++)
+            {
+            sparks[i].GetComponent<FollowPlayer>().SparkExplode();
+            }
+            StartCoroutine(AttackCoroutine());
+            teleporting = true;
+            souled = false;
+            StartCoroutine(TeleportCoroutine());
+            StopCoroutine(ExplodeCoroutine());
+        }
     }
 
     IEnumerator DashCoroutine()

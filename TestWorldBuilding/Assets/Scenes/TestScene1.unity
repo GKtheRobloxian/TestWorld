@@ -917,7 +917,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 286cf572dfea6584980a48a4306ff6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 600
+  health: 550
   initialHealth: 0
   healths: {fileID: 2079145546}
   healthBarr: 1
@@ -6301,6 +6301,7 @@ MonoBehaviour:
   maxDashStamina: 2
   parryTrail: {fileID: 17173305}
   parryEffect: {fileID: 198745730}
+  gravityScale: 1
 --- !u!65 &327373951
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32400,7 +32401,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -5, y: -15}
+  m_AnchoredPosition: {x: -5, y: -20}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1585998758
